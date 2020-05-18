@@ -11,20 +11,12 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class ServiceWorkerController
 {
-    protected $projectDir;
-
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->projectDir = $kernel->getProjectDir();
-    }
-
     /**
      * @return BinaryFileResponse
      */
     public function indexAction()
     {
-        $path = $this->projectDir .
-            '/vendor/ethinking/ethinking-push-api/src/bundle/Resources/public/js/scripts/service-worker.js';
+        $path = __DIR__ . '/../Resources/public/js/scripts/service-worker.js';
 
         return new BinaryFileResponse($path, Response::HTTP_OK, [
             'Content-Type' => 'text/javascript'

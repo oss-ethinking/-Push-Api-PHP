@@ -11,7 +11,14 @@ composer require ethinking/push-api
 ```
 
 ## Usage
-Add to your service the next code:
+Add to your root routes.yaml the next code:
+```yaml
+push_api_service_worker:
+  path: /service-worker.js
+  controller: Ethinking\EthinkingPushApiBundle\Controller\ServiceWorkerController::indexAction
+```
+
+Add to your services.yaml the next code:
 ```yaml
 Ethinking\EthinkingPushApiBundle\Service\PushApiService:
     arguments:
