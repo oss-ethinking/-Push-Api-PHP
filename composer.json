@@ -13,9 +13,10 @@
     "symfony/mime": "^4.3|^5.0"
   },
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Ethinking\\EthinkingPushApiBundle\\": "src/EthinkingPushApiBundle/bundle/"
+      "Ethinking\\EthinkingPushApiBundle\\": "src/bundle/"
     }
   }
 }
