@@ -16,6 +16,10 @@ Add to your root routes.yaml the next code:
 push_api_service_worker:
   path: /service-worker.js
   controller: Ethinking\EthinkingPushApiBundle\Controller\ServiceWorkerController::indexAction
+
+push_api_web_push:
+  path: /webpush-development.js
+  controller: Ethinking\EthinkingPushApiBundle\Controller\WebPushController::indexAction
 ```
 
 Add to your services.yaml the next code:

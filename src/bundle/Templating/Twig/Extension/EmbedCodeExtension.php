@@ -34,7 +34,7 @@ class EmbedCodeExtension extends AbstractExtension
         }
 
         return <<<EOD
-<script src="<path_to_library>/webpush-development.js"></script>
+<script src="/webpush-development.js"></script>
 <script type="text/javascript">
     window.addEventListener('load', () => {
         var config = $configJson;

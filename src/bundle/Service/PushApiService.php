@@ -157,6 +157,23 @@ class PushApiService
     }
 
     /**
+     * @return Channel|null
+     */
+    public function getDefaultWebPushChannel(): ?Channel
+    {
+        $channels = $this->getChannels();
+
+        foreach ($channels as $channel) {
+            //returns the first one found
+            if ($channel->getPlatformId() == self::WEB_PUSH) {
+                return $channel;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param Channel $channel
      * @return bool
      */
