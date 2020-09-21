@@ -7,7 +7,7 @@ Push.Delivery service wrapper which makes it possible to send Push Notifications
 The easiest and recommended way to install this utility is as a composer package:
 
 ```php
-composer require ethinking/push-api
+composer require ethinking/push-api dev-master
 ```
 
 ## Usage
@@ -47,6 +47,16 @@ public function __construct(PushApiService $pushApiService)
     
     $pushApiService->setSettings($settings);
 }
+```
+
+Update assets
+```php
+yarn encore dev
+```
+
+Clear cache
+```php
+php bin/console c:c
 ```
 
 ## Dependencies
