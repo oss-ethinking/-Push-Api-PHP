@@ -1,18 +1,24 @@
-# Push API
+== Push API
 
-Push.Delivery service wrapper which makes it possible to send Push Notifications via various channels to many subscribers and in high speed
+Push.Delivery service wrapper which makes it possible to send Push
+Notifications via various channels to many subscribers and in high speed
 
-## Installation
+=== Installation
 
-The easiest and recommended way to install this utility is as a composer package:
+The easiest and recommended way to install this utility is as a composer
+package:
 
-```php
+[source,php]
+----
 composer require ethinking/push-api dev-master
-```
+----
 
-## Usage
+=== Usage
+
 Add to your root routes.yaml the next code:
-```yaml
+
+[source,yaml]
+----
 push_api_service_worker:
   path: /service-worker.js
   controller: Ethinking\EthinkingPushApiBundle\Controller\ServiceWorkerController::indexAction
@@ -20,18 +26,22 @@ push_api_service_worker:
 push_api_web_push:
   path: /webpush-development.js
   controller: Ethinking\EthinkingPushApiBundle\Controller\WebPushController::indexAction
-```
+----
 
 Add to your services.yaml the next code:
-```yaml
+
+[source,yaml]
+----
 Ethinking\EthinkingPushApiBundle\Service\PushApiService:
     arguments:
         - '@Symfony\Contracts\HttpClient\HttpClientInterface'
         - '@logger'
-```
+----
 
 Initialize in your class:
-```php
+
+[source,php]
+----
 use Ethinking\EthinkingPushApiBundle\Service\PushApiService;
 use Ethinking\EthinkingPushApiBundle\Entity\Settings;
 
@@ -44,24 +54,29 @@ public function __construct(PushApiService $pushApiService)
         $this->getPassword(),
         $this->getClientId()
     );
-    
+
     $pushApiService->setSettings($settings);
 }
-```
+----
 
 Update assets
-```php
+
+[source,php]
+----
 yarn encore dev
-```
+----
 
 Clear cache
-```php
+
+[source,php]
+----
 php bin/console c:c
-```
+----
 
-## Dependencies
+=== Dependencies
 
-```json
+[source,json]
+----
 {
     "symfony/dependency-injection": "^5.0",
     "symfony/http-kernel": "^5.0",
@@ -71,4 +86,4 @@ php bin/console c:c
     "symfony/validator": "^3.4.30|^4.3.3|^5.0",
     "symfony/mime": "^4.3|^5.0"
 }
-```
+----

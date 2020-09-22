@@ -1,1 +1,1 @@
-var test = "test";
+console.log("Please include service worker for the push api package")
