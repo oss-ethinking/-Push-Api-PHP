@@ -24,7 +24,7 @@ push_api_service_worker:
   controller: Ethinking\EthinkingPushApiBundle\Controller\ServiceWorkerController::indexAction
 
 push_api_web_push:
-  path: /webpush-development.js
+  path: /webpush.js
   controller: Ethinking\EthinkingPushApiBundle\Controller\WebPushController::indexAction
 ----
 

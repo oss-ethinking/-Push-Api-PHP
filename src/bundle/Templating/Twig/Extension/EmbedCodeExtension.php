@@ -34,15 +34,15 @@ class EmbedCodeExtension extends AbstractExtension
         }
 
         return <<<EOD
-<script src="/webpush-development.js"></script>
+<script src="/webpush.js"></script>
 <script type="text/javascript">
     window.addEventListener('load', () => {
         var config = $configJson;
-
         var push = new PushDelivery(config);
 
-        if (push.isSupportedBrowser() && push.requestPermission()) {
-            push.init();
+        if (push.isSupportedBrowser()) {
+            var pushUI = new PushDeliveryUI(config);
+            pushUI.init();
         }
     });
 </script>

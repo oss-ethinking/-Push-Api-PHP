@@ -16,7 +16,7 @@ class WebPushController
      */
     public function indexAction()
     {
-        $path = __DIR__ . '/../Resources/public/js/scripts/webpush-development.js';
+        $path = __DIR__ . '/../Resources/public/js/scripts/webpush.js';
 
         return new BinaryFileResponse($path, Response::HTTP_OK, [
             'Content-Type' => 'text/javascript'
