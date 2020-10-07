@@ -1,0 +1,13 @@
+ethinking.push.js.sw:
+  path: /service-worker.js
+  methods: GET
+  controller: Ethinking\EthinkingPushApiBundle\Controller\ServiceWorkerController::indexAction
+  options:
+    expose: true
+
+ethinking.push.js.lib:
+  path: /webpush.js
+  methods: GET
+  controller: Ethinking\EthinkingPushApiBundle\Controller\WebPushController::indexAction
+  options:
+    expose: true
