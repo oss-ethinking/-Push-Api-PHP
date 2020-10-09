@@ -21,7 +21,6 @@ class Channel
     private $accessToken;
     private $fallbackUrl;
     private $apiUrl;
-    private $serviceWorkerPath;
     private $connectedTagIds;
 
     const NO_BLANK = 'This value should not be blank';
@@ -223,22 +222,6 @@ class Channel
     /**
      * @return mixed
      */
-    public function getServiceWorkerPath()
-    {
-        return $this->serviceWorkerPath;
-    }
-
-    /**
-     * @param mixed $serviceWorkerPath
-     */
-    public function setServiceWorkerPath($serviceWorkerPath): void
-    {
-        $this->serviceWorkerPath = $serviceWorkerPath;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getConnectedTagIds()
     {
         return $this->connectedTagIds;
@@ -329,12 +312,6 @@ class Channel
             if (empty(trim($channel->fallbackUrl))) {
                 $context->buildViolation(Channel::NO_BLANK)
                     ->atPath('fallbackUrl')
-                    ->addViolation();
-            }
-
-            if (empty(trim($channel->serviceWorkerPath))) {
-                $context->buildViolation(Channel::NO_BLANK)
-                    ->atPath('serviceWorkerPath')
                     ->addViolation();
             }
         };

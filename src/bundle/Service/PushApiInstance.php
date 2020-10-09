@@ -97,10 +97,6 @@ class PushApiInstance
                 }
 
                 $channel->setApiUrl($this->settings->getDomain());
-
-                if (array_key_exists('serviceWorkerPath', $item['parameters'])) {
-                    $channel->setServiceWorkerPath("{$channel->getFallbackUrl()}/service-worker.js");
-                }
             }
             if (array_key_exists('apiUser', $item) && array_key_exists('accessToken', $item['apiUser'])) {
                 $channel->setAccessToken($item['apiUser']['accessToken']);
