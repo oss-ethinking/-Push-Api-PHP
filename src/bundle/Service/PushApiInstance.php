@@ -10,6 +10,8 @@ use Ethinking\EthinkingPushApiBundle\Entity\Settings;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -39,6 +41,15 @@ class PushApiInstance
     private $settings;
 
     /**
+     * @var CacheInterface
+     */
+    private $cache;
+
+    const DEFAULT_CHANNEL_TAG = 'General';
+    const DEFAULT_CHANNEL_CACHE_KEY = 'ethinking_web_push_default_channel';
+    const DEFAULT_CHANNEL_CACHE_EXP_SEC = 3600;
+
+    /**
      * @param HttpClientInterface $httpClient
      * @param LoggerInterface|null $logger
      * @param Settings $settings
@@ -46,11 +57,13 @@ class PushApiInstance
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        Settings $settings
+        Settings $settings,
+        CacheInterface $cache
     ) {
         $this->httpClient = $httpClient;
         $this->logger = $logger;
         $this->settings = $settings;
+        $this->cache = $cache;
     }
 
     /**
@@ -132,20 +145,33 @@ class PushApiInstance
     }
 
     /**
+     * Returns first channel with WEB_PUSH platform from cache
      * @return Channel|null
      */
     public function getDefaultWebPushChannel(): ?Channel
     {
-        $channels = $this->getChannels();
+        return $this->cache->get(self::DEFAULT_CHANNEL_CACHE_KEY, function (ItemInterface $item) {
+            $item->expiresAfter(self::DEFAULT_CHANNEL_CACHE_EXP_SEC);
 
-        foreach ($channels as $channel) {
-            //returns the first one found
-            if ($channel->getPlatformId() == PushApiService::WEB_PUSH) {
-                return $channel;
+            $channels = $this->getChannels();
+
+            foreach ($channels as $channel) {
+                if ($channel->getPlatformId() == PushApiService::WEB_PUSH) {
+                    return $channel;
+                }
             }
-        }
 
-        return null;
+            return null;
+        });
+    }
+
+    /**
+     * Clears default channel cache
+     * @return bool
+     */
+    public function clearDefaultWebPushChannel(): bool
+    {
+        return $this->cache->delete(self::DEFAULT_CHANNEL_CACHE_KEY);
     }
 
     /**
@@ -154,7 +180,7 @@ class PushApiInstance
      */
     public function addChannelAndDefaultTag(Channel $channel)
     {
-        $this->addTag("General", $this->getDefaultTagSourceId());
+        $this->addTag(self::DEFAULT_CHANNEL_TAG, $this->getDefaultTagSourceId());
         return $this->addChannel($channel);
     }
 
