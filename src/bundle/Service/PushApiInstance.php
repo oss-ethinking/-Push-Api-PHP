@@ -15,7 +15,6 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class PushApiInstance
@@ -48,18 +47,15 @@ class PushApiInstance
      * @param HttpClientInterface $httpClient
      * @param LoggerInterface|null $logger
      * @param Settings $settings
-     * @param CacheInterface $cache
      */
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        Settings $settings,
-        CacheInterface $cache
+        Settings $settings
     ) {
         $this->httpClient = $httpClient;
         $this->logger = $logger;
         $this->settings = $settings;
-        $this->cache = $cache;
     }
 
     /**

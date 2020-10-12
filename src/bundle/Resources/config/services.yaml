@@ -3,7 +3,3 @@ services:
         autowire: true
         autoconfigure: false
         public: false
-
-    Symfony\Component\Cache\Simple\FilesystemCache:
-
-    Psr\SimpleCache\CacheInterface: '@Symfony\Component\Cache\Simple\FilesystemCache'
