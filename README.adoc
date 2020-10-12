@@ -36,6 +36,7 @@ Ethinking\EthinkingPushApiBundle\Service\PushApiService:
     arguments:
         - '@Symfony\Contracts\HttpClient\HttpClientInterface'
         - '@logger'
+        - '@Symfony\Contracts\Cache\CacheInterface'
 ----
 
 Initialize in your class:
