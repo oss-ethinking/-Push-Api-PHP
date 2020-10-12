@@ -39,11 +39,6 @@ class PushApiInstance
     private $settings;
 
     /**
-     * @var CacheInterface
-     */
-    private $cache;
-
-    /**
      * @param HttpClientInterface $httpClient
      * @param LoggerInterface|null $logger
      * @param Settings $settings
