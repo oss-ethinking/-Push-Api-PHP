@@ -7,5 +7,6 @@ apply plugin: "org.sonarqube"
 sonarqube {
     properties {
      property "sonar.sources", "src"
+     property "sonar.exclusions", "**/webpush.js, **/service-worker.js, **/*.yaml"
     }
 }
