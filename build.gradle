@@ -6,7 +6,9 @@ apply plugin: "org.sonarqube"
 
 sonarqube {
     properties {
-        property "sonar.sources", "src"
+        property "sonar.projectKey", "push-api-php"
+        property "sonar.projectName", "push-api-php"
+        property "sonar.sources", "."
         property "sonar.exclusions", "**/webpush.js, **/service-worker.js, **/*.yaml"
         property "sonar.tests", "tests"
     }
