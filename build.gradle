@@ -8,7 +8,7 @@ sonarqube {
     properties {
         property "sonar.projectKey", "push-api-php"
         property "sonar.projectName", "push-api-php"
-        property "sonar.sources", "."
+        property "sonar.sources", "src"
         property "sonar.exclusions", "**/webpush.js, **/service-worker.js, **/*.yaml"
         property "sonar.tests", "tests"
     }
