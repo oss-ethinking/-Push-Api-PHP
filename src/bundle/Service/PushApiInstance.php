@@ -75,6 +75,10 @@ class PushApiInstance
         $uri = "/push-admin-api/app/get/{$this->settings->getClientId()}";
         $items = $this->get($uri);
 
+        if (empty($items)) {
+            return [];
+        }
+
         foreach ($items as $item) {
             $channel = new Channel();
             $channel->setAppName($item['name']);
@@ -225,6 +229,10 @@ class PushApiInstance
         $uri = "/push-admin-api/history/get/{$this->settings->getClientId()}?page={$page}&count={$count}";
         $items = $this->get($uri);
 
+        if (empty($items)) {
+            return [];
+        }
+
         foreach ($items as $item) {
             $history = new History($item['id'], $item['userName'], $item['status'], $item['time']);
             $historyArray[] = $history;
@@ -242,6 +250,10 @@ class PushApiInstance
         $detailsArray = [];
         $uri = "/push-api/status/${id}";
         $items = $this->get($uri);
+
+        if (empty($items)) {
+            return [];
+        }
 
         foreach ($items as $item) {
             $details = new HistoryDetails(
