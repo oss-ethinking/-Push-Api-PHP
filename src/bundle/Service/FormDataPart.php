@@ -6,6 +6,11 @@ use Symfony\Component\Mime\Exception\InvalidArgumentException;
 use Symfony\Component\Mime\Part\AbstractMultipartPart;
 use Symfony\Component\Mime\Part\TextPart;
 
+/**
+ * Class FormDataPart
+ * Inspired by \Symfony\Component\Mime\Part\Multipart\FormDataPart
+ * @package Ethinking\EthinkingPushApiBundle\Service
+ */
 final class FormDataPart extends AbstractMultipartPart
 {
     private $fields = [];
@@ -26,6 +31,7 @@ final class FormDataPart extends AbstractMultipartPart
 
             $this->fields[$name] = $value;
         }
+
         // HTTP does not support \r\n in header values
         $this->getHeaders()->setMaxLineLength(PHP_INT_MAX);
     }

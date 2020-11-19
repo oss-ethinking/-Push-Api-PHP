@@ -369,6 +369,11 @@ class PushApiInstance
     public function getDefaultTagId()
     {
         $item = $this->getTag('sourceId', $this->getDefaultTagSourceId());
+
+        if (!array_key_exists('id', $item)) {
+            return null;
+        }
+
         return $item['id'];
     }
 

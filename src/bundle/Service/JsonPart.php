@@ -10,6 +10,11 @@ use Symfony\Component\Mime\Exception\InvalidArgumentException;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Part\AbstractPart;
 
+/**
+ * Class JsonPart
+ * Inspired by \Symfony\Component\Mime\Part\Multipart\FormDataPart
+ * @package Ethinking\EthinkingPushApiBundle\Service
+ */
 class JsonPart extends AbstractPart
 {
     private static $encoders = [];

@@ -25,11 +25,6 @@ class PushApiService
     private $logger;
 
     /**
-     * @var Settings
-     */
-    private $settings;
-
-    /**
      * @var CacheInterface
      */
     private $cache;

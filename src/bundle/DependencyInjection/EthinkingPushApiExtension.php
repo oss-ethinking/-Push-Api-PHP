@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Yaml\Yaml;
 
-/**^
+/**
  * This is the class that loads and manages your bundle configuration.
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
@@ -37,5 +37,6 @@ class EthinkingPushApiExtension extends Extension implements PrependExtensionInt
 
     public function prepend(ContainerBuilder $container)
     {
+        // Allows an extension to prepend the extension configurations.
     }
 }
