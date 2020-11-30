@@ -2,6 +2,7 @@
 
 namespace Ethinking\Test;
 
+use Ethinking\EthinkingPushApiBundle\Entity\Channel;
 use Ethinking\EthinkingPushApiBundle\Service\PushApiInstance;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -50,22 +51,73 @@ class PushApiInstanceTest extends TestCase
         $this->assertEquals('push-connector-tag-general-random-string', $defaultTag);
     }
 
-    /**
-     * @group active
-     */
     public function testGetChannels_returnsChannels(): void
     {
         // Given
+        $this->expectChannels();
+
+        // When
+        $channels = $this->pushApiService->getChannels();
+
+        $expectedChannel = new Channel();
+        $expectedChannel->setId('1');
+        $expectedChannel->setPlatformId('2');
+        $expectedChannel->setAppName('3');
+        $expectedChannel->setSenderId('4');
+        $expectedChannel->setPushTemplate('5');
+        $expectedChannel->setFirebaseProjectId('6');
+        $expectedChannel->setFirebaseMessagingSenderId('7');
+        $expectedChannel->setFirebaseApiKey('8');
+        $expectedChannel->setFirebaseAppId('9');
+        $expectedChannel->setFallbackUrl('10');
+        $expectedChannel->setAccessToken('11');
+        $expectedChannel->setApiUrl('random-domain');
+        $expectedChannel->setConnectedTagIds(['1']);
+
+        // Then
+        $this->assertCount(1, $channels);
+        $this->assertEquals($expectedChannel, current($channels));
+    }
+
+    public function testGetChannel_returnsChannel(): void
+    {
+        // Given
+        $this->expectChannels();
+
+        // When
+        $channel = $this->pushApiService->getChannel('1');
+
+        $expectedChannel = new Channel();
+        $expectedChannel->setId('1');
+        $expectedChannel->setPlatformId('2');
+        $expectedChannel->setAppName('3');
+        $expectedChannel->setSenderId('4');
+        $expectedChannel->setPushTemplate('5');
+        $expectedChannel->setFirebaseProjectId('6');
+        $expectedChannel->setFirebaseMessagingSenderId('7');
+        $expectedChannel->setFirebaseApiKey('8');
+        $expectedChannel->setFirebaseAppId('9');
+        $expectedChannel->setFallbackUrl('10');
+        $expectedChannel->setAccessToken('11');
+        $expectedChannel->setApiUrl('random-domain');
+        $expectedChannel->setConnectedTagIds(['1']);
+
+        // Then
+        $this->assertEquals($expectedChannel, $channel);
+    }
+
+    private function expectChannels()
+    {
         $clientId = 'random-string';
         $channelsUri = "/push-admin-api/app/get/{$clientId}";
         $defaultTagUri = "/push-admin-api/tag/sourceId/push-connector-tag-general-{$clientId}/{$clientId}";
         $domain = 'random-domain';
         $username = 'random-username';
         $password = 'random-password';
+        $defaultTagJson = '{"id":"1"}';
         $channelsJson = '[{"id":"1","platformId":"2","name":"3","parameters":'
             . '{"senderId":"4","pushTemplate":"5","firebaseProjectId":"6","firebaseMessagingSenderId":"7",'
             . '"firebaseApiKey":"8","firebaseAppId":"9","fallbackUrl":"10"},"apiUser":{"accessToken":"11"}}]';
-        $defaultTagJson = '{"id":"1"}';
 
         $channelsResponse = $this->getResponse($channelsJson);
         $defaultTagResponse = $this->getResponse($defaultTagJson);
@@ -99,23 +151,6 @@ class PushApiInstanceTest extends TestCase
                 'auth_basic' => "{$username}:{$password}"
             ]))
             ->willReturn($defaultTagResponse);
-
-        // When
-        $channels = $this->pushApiService->getChannels();
-
-        // Then
-        $this->assertCount(1, $channels);
-        $this->assertEquals('1', $channels[0]->getId());
-        $this->assertEquals('2', $channels[0]->getPlatformId());
-        $this->assertEquals('3', $channels[0]->getAppName());
-        $this->assertEquals('4', $channels[0]->getSenderId());
-        $this->assertEquals('5', $channels[0]->getPushTemplate());
-        $this->assertEquals('6', $channels[0]->getFirebaseProjectId());
-        $this->assertEquals('7', $channels[0]->getFirebaseMessagingSenderId());
-        $this->assertEquals('8', $channels[0]->getFirebaseApiKey());
-        $this->assertEquals('9', $channels[0]->getFirebaseAppId());
-        $this->assertEquals('10', $channels[0]->getFallbackUrl());
-        $this->assertEquals('11', $channels[0]->getAccessToken());
     }
 
     private function getResponse(string $content): ResponseInterface
