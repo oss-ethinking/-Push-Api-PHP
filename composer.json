@@ -16,7 +16,8 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Ethinking\\EthinkingPushApiBundle\\": "src/bundle/"
+      "Ethinking\\EthinkingPushApiBundle\\": "src/bundle/",
+      "Ethinking\\Test\\": "tests/"
     }
   }
 }

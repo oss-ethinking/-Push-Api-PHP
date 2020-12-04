@@ -30,9 +30,7 @@ class PushApiInstanceTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->cache = $this->getMockBuilder('Symfony\Contracts\Cache\CacheInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->cache = new CacheFake();
 
         $this->pushApiService = new PushApiInstance($this->httpClient, $this->logger, $this->settings, $this->cache);
     }
@@ -61,7 +59,7 @@ class PushApiInstanceTest extends TestCase
 
         $expectedChannel = new Channel();
         $expectedChannel->setId('1');
-        $expectedChannel->setPlatformId('2');
+        $expectedChannel->setPlatformId('7');
         $expectedChannel->setAppName('3');
         $expectedChannel->setSenderId('4');
         $expectedChannel->setPushTemplate('5');
@@ -89,7 +87,7 @@ class PushApiInstanceTest extends TestCase
 
         $expectedChannel = new Channel();
         $expectedChannel->setId('1');
-        $expectedChannel->setPlatformId('2');
+        $expectedChannel->setPlatformId('7');
         $expectedChannel->setAppName('3');
         $expectedChannel->setSenderId('4');
         $expectedChannel->setPushTemplate('5');
@@ -106,8 +104,57 @@ class PushApiInstanceTest extends TestCase
         $this->assertEquals($expectedChannel, $channel);
     }
 
+    public function testGetChannel_returnsNull(): void
+    {
+        // Given
+        $this->expectChannels();
+
+        // When
+        $channel = $this->pushApiService->getChannel('2');
+
+        // Then
+        $this->assertNull($channel);
+    }
+
+    public function testGetDefaultWebPushChannel_returnsDefaultChannel(): void
+    {
+        // Given
+        $this->expectChannels();
+
+        $expectedChannel = new Channel();
+        $expectedChannel->setId('1');
+        $expectedChannel->setPlatformId('7');
+        $expectedChannel->setAppName('3');
+        $expectedChannel->setSenderId('4');
+        $expectedChannel->setPushTemplate('5');
+        $expectedChannel->setFirebaseProjectId('6');
+        $expectedChannel->setFirebaseMessagingSenderId('7');
+        $expectedChannel->setFirebaseApiKey('8');
+        $expectedChannel->setFirebaseAppId('9');
+        $expectedChannel->setFallbackUrl('10');
+        $expectedChannel->setAccessToken('11');
+        $expectedChannel->setApiUrl('random-domain');
+        $expectedChannel->setConnectedTagIds(['1']);
+
+        // When
+        $defaultWebPushChannel = $this->pushApiService->getDefaultWebPushChannel();
+
+        // Then
+        $this->assertEquals($expectedChannel, $defaultWebPushChannel);
+    }
+
+    public function testClearDefaultWebPushChannel_returnsTrue(): void
+    {
+        // When
+        $clearCacheResult = $this->pushApiService->clearDefaultWebPushChannel();
+
+        // Then
+        $this->assertTrue($clearCacheResult);
+    }
+
     private function expectChannels()
     {
+        $webPushPlatformId = '7';
         $clientId = 'random-string';
         $channelsUri = "/push-admin-api/app/get/{$clientId}";
         $defaultTagUri = "/push-admin-api/tag/sourceId/push-connector-tag-general-{$clientId}/{$clientId}";
@@ -115,7 +162,7 @@ class PushApiInstanceTest extends TestCase
         $username = 'random-username';
         $password = 'random-password';
         $defaultTagJson = '{"id":"1"}';
-        $channelsJson = '[{"id":"1","platformId":"2","name":"3","parameters":'
+        $channelsJson = '[{"id":"1","platformId":"' . $webPushPlatformId . '","name":"3","parameters":'
             . '{"senderId":"4","pushTemplate":"5","firebaseProjectId":"6","firebaseMessagingSenderId":"7",'
             . '"firebaseApiKey":"8","firebaseAppId":"9","fallbackUrl":"10"},"apiUser":{"accessToken":"11"}}]';
 
